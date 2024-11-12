@@ -5,7 +5,6 @@ const CACHE_URLS = [
     '/static/css/components.css',
     '/static/js/app.js',
     '/static/js/components/app-header.js',
-    '/static/js/components/app-nav.js',
     '/static/js/components/app-footer.js',
     '/static/icons/icon-192.svg',
     '/static/icons/icon-512.svg'
@@ -33,13 +32,12 @@ self.addEventListener('activate', event => {
 
 // Fetch event
 self.addEventListener('fetch', event => {
-    // During development, always fetch from network
     const isDevelopment = self.location.hostname === 'localhost' || 
                          self.location.hostname === '127.0.0.1' ||
                          self.location.hostname.includes('.repl.co');
-                         
+    
     if (isDevelopment) {
-        return fetch(event.request);
+        return;
     }
     
     event.respondWith(
