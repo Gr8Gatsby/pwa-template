@@ -13,11 +13,13 @@ class AppHeaderBase extends HTMLElement {
 
     setupEventListeners() {
         const hamburger = this.shadowRoot.querySelector('.hamburger');
-        const nav = this.shadowRoot.querySelector('.nav-menu');
         const themeToggle = this.shadowRoot.querySelector('.theme-toggle');
+        const closeMenu = this.shadowRoot.querySelector('.close-menu');
         
-        if (hamburger && nav) {
-            hamburger.addEventListener('click', () => {
+        if (hamburger) {
+            hamburger.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
                 store.dispatch({ type: 'TOGGLE_NAVIGATION' });
             });
         }
@@ -31,17 +33,32 @@ class AppHeaderBase extends HTMLElement {
                 });
             });
         }
+
+        if (closeMenu) {
+            closeMenu.addEventListener('click', () => {
+                store.dispatch({ type: 'TOGGLE_NAVIGATION' });
+            });
+        }
+
+        document.addEventListener('click', (e) => {
+            const nav = this.shadowRoot.querySelector('.nav-menu');
+            const hamburger = this.shadowRoot.querySelector('.hamburger');
+            
+            if (nav && nav.classList.contains('active')) {
+                if (!nav.contains(e.target) && !hamburger.contains(e.target)) {
+                    store.dispatch({ type: 'TOGGLE_NAVIGATION' });
+                }
+            }
+        });
     }
 
     onStateChange(state) {
-        // Navigation state handling
         const nav = this.shadowRoot.querySelector('.nav-menu');
         if (nav) {
             nav.classList.toggle('active', state.isNavOpen);
             document.body.style.overflow = state.isNavOpen ? 'hidden' : '';
         }
         
-        // Update theme attribute
         this.setAttribute('data-theme', state.theme);
         document.documentElement.setAttribute('data-theme', state.theme);
     }
@@ -59,6 +76,8 @@ class AppHeaderBase extends HTMLElement {
                 header {
                     background: var(--color-surface);
                     border-bottom: 1px solid var(--color-border);
+                    position: relative;
+                    z-index: 1;
                 }
                 
                 .header-container {
@@ -68,6 +87,8 @@ class AppHeaderBase extends HTMLElement {
                     max-width: 1200px;
                     margin: 0 auto;
                     padding: var(--spacing-md);
+                    position: relative;
+                    z-index: 2;
                 }
                 
                 .logo {
@@ -85,10 +106,39 @@ class AppHeaderBase extends HTMLElement {
                     margin: 0;
                     padding: 0;
                 }
+
+                .close-menu {
+                    position: absolute;
+                    top: 1rem;
+                    right: 1rem;
+                    background: none;
+                    border: none;
+                    padding: var(--spacing-sm);
+                    cursor: pointer;
+                    color: var(--color-text);
+                    display: none;
+                }
                 
                 .hamburger {
                     display: none;
-                    z-index: 1001;
+                    background: none;
+                    border: none;
+                    padding: 0;
+                    cursor: pointer;
+                    width: 24px;
+                    height: 24px;
+                    color: var(--color-text);
+                    z-index: 1002;
+                }
+
+                .hamburger svg {
+                    width: 24px;
+                    height: 24px;
+                    fill: currentColor;
+                }
+
+                :host([data-theme="dark"]) .hamburger {
+                    color: var(--color-text);
                 }
 
                 .theme-toggle {
@@ -124,35 +174,45 @@ class AppHeaderBase extends HTMLElement {
                 @media (max-width: 768px) {
                     .hamburger {
                         display: block;
-                        background: none;
-                        border: none;
-                        padding: 0;
-                        cursor: pointer;
-                        width: 24px;
-                        height: 24px;
                     }
                     
                     .nav-menu {
                         position: fixed;
                         top: 0;
                         left: 0;
-                        width: 100%;
+                        right: 0;
+                        bottom: 0;
+                        width: 100vw;
                         height: 100vh;
-                        background: var(--color-background);
+                        background-color: var(--color-background);
+                        display: flex;
                         flex-direction: column;
                         align-items: center;
                         justify-content: center;
-                        transform: translateX(-100%);
-                        transition: transform 0.3s ease;
+                        gap: var(--spacing-lg);
+                        opacity: 0;
+                        visibility: hidden;
+                        transform: translateX(100%);
+                        transition: all 0.3s ease;
+                        z-index: 9999;
+                    }
+
+                    .close-menu {
+                        display: block;
                     }
                     
                     .nav-menu.active {
+                        opacity: 1;
+                        visibility: visible;
                         transform: translateX(0);
                     }
                     
                     .nav-menu a {
-                        font-size: 1.5rem;
+                        font-size: 2rem;
+                        color: var(--color-text);
+                        text-decoration: none;
                         padding: var(--spacing-md);
+                        transition: color 0.3s ease;
                     }
                 }
                 
@@ -183,6 +243,11 @@ class AppHeaderBase extends HTMLElement {
                             </svg>
                         </button>
                         <nav class="nav-menu">
+                            <button class="close-menu" aria-label="Close menu">
+                                <svg width="24" height="24" viewBox="0 0 24 24">
+                                    <path fill="currentColor" d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                                </svg>
+                            </button>
                             <a href="/">Home</a>
                             <a href="/about">About</a>
                             <a href="/contact">Contact</a>
