@@ -50,7 +50,7 @@ class AppNavBase extends HTMLElement {
                 nav {
                     position: relative;
                     width: 100%;
-                    z-index: 9999;
+                    z-index: 1;
                     background: rgba(255, 255, 255, 0.8);
                     backdrop-filter: var(--blur-effect);
                     -webkit-backdrop-filter: var(--blur-effect);
@@ -68,6 +68,15 @@ class AppNavBase extends HTMLElement {
                     align-items: center;
                 }
 
+                /* Navigation Menu */
+                .nav-menu {
+                    display: flex;
+                    gap: var(--spacing-md);
+                    list-style: none;
+                    margin: 0;
+                    padding: 0;
+                }
+
                 /* Hamburger Menu Styles */
                 .hamburger {
                     display: none;
@@ -80,6 +89,7 @@ class AppNavBase extends HTMLElement {
                     cursor: pointer;
                     padding: 0;
                 }
+
                 .hamburger span {
                     width: 30px;
                     height: 2px;
@@ -87,24 +97,19 @@ class AppNavBase extends HTMLElement {
                     border-radius: 1px;
                     transition: all 0.3s ease;
                 }
+
                 .hamburger.active span:nth-child(1) {
                     transform: rotate(45deg) translate(5px, 5px);
                 }
+
                 .hamburger.active span:nth-child(2) {
                     opacity: 0;
                 }
+
                 .hamburger.active span:nth-child(3) {
                     transform: rotate(-45deg) translate(7px, -7px);
                 }
 
-                /* Navigation Menu */
-                .nav-menu {
-                    display: flex;
-                    gap: var(--spacing-md);
-                    list-style: none;
-                    margin: 0;
-                    padding: 0;
-                }
                 a {
                     color: var(--color-text);
                     text-decoration: none;
@@ -114,35 +119,31 @@ class AppNavBase extends HTMLElement {
                     font-size: 1rem;
                     display: block;
                 }
+
                 a:hover {
                     background-color: var(--color-surface);
                 }
 
                 /* Mobile Navigation Styles */
                 @media (max-width: 768px) {
+                    .hamburger {
+                        position: fixed;
+                        top: 1rem;
+                        right: 1rem;
+                        z-index: 100;
+                        display: flex;
+                    }
+
                     .nav-menu {
                         position: fixed;
-                        top: 0;
-                        left: 0;
-                        right: 0;
-                        bottom: 0;
-                        width: 100%;
-                        height: 100vh;
+                        inset: 0;
                         background: var(--color-background);
                         display: flex;
                         flex-direction: column;
                         align-items: center;
                         justify-content: center;
-                        z-index: 9998;
                         transform: translateX(-100%);
                         transition: transform 0.3s ease;
-                    }
-
-                    .hamburger {
-                        position: relative;
-                        z-index: 9999;
-                        margin: var(--spacing-sm);
-                        display: flex;
                     }
 
                     .nav-menu.hidden {
@@ -172,19 +173,20 @@ class AppNavBase extends HTMLElement {
                 }
             </style>
             <nav>
+                <button class="hamburger" aria-label="Menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
                 <div class="nav-container">
-                    <button class="hamburger" aria-label="Menu">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                    </button>
-                    <ul class="nav-menu hidden">
-                        <li><a href="/">Home</a></li>
-                        <li><a href="/about">About</a></li>
-                        <li><a href="/contact">Contact</a></li>
-                    </ul>
+                    <!-- Nav container content -->
                 </div>
             </nav>
+            <ul class="nav-menu hidden">
+                <li><a href="/">Home</a></li>
+                <li><a href="/about">About</a></li>
+                <li><a href="/contact">Contact</a></li>
+            </ul>
         `;
     }
 }
