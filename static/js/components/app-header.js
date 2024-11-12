@@ -13,8 +13,6 @@ class AppHeader extends HTMLElement {
             <style>
                 :host {
                     display: block;
-                    background: var(--color-surface);
-                    padding: var(--spacing-md);
                 }
                 .header {
                     display: flex;
@@ -22,15 +20,22 @@ class AppHeader extends HTMLElement {
                     align-items: center;
                     max-width: 1200px;
                     margin: 0 auto;
+                    padding: var(--spacing-md);
                 }
                 .logo {
-                    font-size: 1.5rem;
-                    font-weight: bold;
-                    color: var(--color-primary);
+                    font-size: 1.25rem;
+                    font-weight: 600;
+                    color: var(--color-text);
+                    text-decoration: none;
+                }
+                @media (max-width: 768px) {
+                    .header {
+                        padding: var(--spacing-sm);
+                    }
                 }
             </style>
             <header class="header">
-                <div class="logo">PWA Template</div>
+                <a href="/" class="logo">PWA Template</a>
             </header>
         `;
     }

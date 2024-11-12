@@ -5,15 +5,20 @@
 
 /* Header Component */
 app-header {
-    background-color: var(--color-surface);
-    padding: var(--spacing-md);
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    background-color: rgba(255, 255, 255, 0.8);
+    backdrop-filter: var(--blur-effect);
+    -webkit-backdrop-filter: var(--blur-effect);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: var(--shadow-sm);
 }
 
 /* Navigation Component */
 app-nav {
-    background-color: var(--color-primary);
-    color: white;
+    background-color: rgba(255, 255, 255, 0.8);
+    backdrop-filter: var(--blur-effect);
+    -webkit-backdrop-filter: var(--blur-effect);
 }
 
 /* Footer Component */
@@ -21,16 +26,42 @@ app-footer {
     background-color: var(--color-surface);
     padding: var(--spacing-md);
     margin-top: auto;
+    font-size: 0.875rem;
 }
 
 /* Component Transitions */
 .fade-enter {
     opacity: 0;
     transform: translateY(10px);
-    transition: opacity 0.3s ease, transform 0.3s ease;
+    transition: opacity var(--transition-base), transform var(--transition-base);
 }
 
 .fade-enter-active {
     opacity: 1;
     transform: translateY(0);
+}
+
+/* Mobile Navigation */
+.nav-menu {
+    transition: transform var(--transition-base);
+}
+
+.nav-menu.hidden {
+    transform: translateX(-100%);
+}
+
+/* Frosted Glass Effect */
+.glass {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: var(--blur-effect);
+    -webkit-backdrop-filter: var(--blur-effect);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+}
+
+@media (max-width: 768px) {
+    app-footer {
+        padding: var(--spacing-sm);
+        font-size: 0.75rem;
+    }
 }
