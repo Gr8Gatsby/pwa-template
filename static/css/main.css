@@ -31,6 +31,17 @@
     --transition-slow: 0.4s ease;
 }
 
+[data-theme="dark"] {
+    --color-text: #FFFFFF;
+    --color-text-secondary: #A1A1A6;
+    --color-background: #000000;
+    --color-surface: #1C1C1E;
+    --color-border: #38383A;
+    --shadow-sm: 0 2px 4px rgba(0,0,0,0.3);
+    --shadow-md: 0 4px 6px rgba(0,0,0,0.4);
+    --shadow-lg: 0 10px 15px rgba(0,0,0,0.5);
+}
+
 /* Reset */
 *, *::before, *::after {
     box-sizing: border-box;
@@ -52,6 +63,7 @@ body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    transition: color var(--transition-base), background-color var(--transition-base);
 }
 
 /* Layout */
