@@ -40,7 +40,9 @@ class AppNav extends HTMLElement {
                     display: flex;
                     justify-content: space-between;
                     align-items: center;
+                    position: relative;
                 }
+                /* Hamburger Menu Styles */
                 .hamburger {
                     display: none;
                     flex-direction: column;
@@ -51,12 +53,14 @@ class AppNav extends HTMLElement {
                     border: none;
                     cursor: pointer;
                     padding: 0;
-                    z-index: 10;
+                    position: relative;
+                    z-index: 1000;
                 }
                 .hamburger span {
                     width: 30px;
                     height: 2px;
                     background: var(--color-text);
+                    border-radius: 1px;
                     transition: all var(--transition-base);
                 }
                 .hamburger.active span:nth-child(1) {
@@ -68,9 +72,15 @@ class AppNav extends HTMLElement {
                 .hamburger.active span:nth-child(3) {
                     transform: rotate(-45deg) translate(7px, -7px);
                 }
+                /* Navigation Menu */
                 .nav-menu {
                     display: flex;
                     gap: var(--spacing-md);
+                    list-style: none;
+                    margin: 0;
+                    padding: 0;
+                    transform: translateX(0);
+                    transition: transform var(--transition-base);
                 }
                 a {
                     color: var(--color-text);
@@ -79,6 +89,7 @@ class AppNav extends HTMLElement {
                     border-radius: 8px;
                     transition: all var(--transition-base);
                     font-size: 1rem;
+                    display: block;
                 }
                 a:hover {
                     background-color: var(--color-surface);
@@ -93,20 +104,27 @@ class AppNav extends HTMLElement {
                         top: 0;
                         left: 0;
                         height: 100vh;
-                        width: 250px;
+                        width: 280px;
                         flex-direction: column;
                         background: var(--color-background);
-                        padding: 80px var(--spacing-md) var(--spacing-md);
+                        padding: calc(var(--spacing-lg) * 2) var(--spacing-md) var(--spacing-md);
                         box-shadow: var(--shadow-lg);
-                        transform: translateX(0);
-                        transition: transform var(--transition-base);
+                        z-index: 999;
                     }
                     .nav-menu.hidden {
                         transform: translateX(-100%);
                     }
+                    .nav-menu li {
+                        width: 100%;
+                    }
                     a {
                         padding: var(--spacing-md);
                         width: 100%;
+                        border-radius: 12px;
+                    }
+                    a:hover {
+                        background-color: var(--color-surface);
+                        transform: translateX(var(--spacing-xs));
                     }
                 }
             </style>
@@ -117,7 +135,7 @@ class AppNav extends HTMLElement {
                         <span></span>
                         <span></span>
                     </button>
-                    <ul class="nav-menu hidden">
+                    <ul class="nav-menu">
                         <li><a href="/">Home</a></li>
                         <li><a href="/about">About</a></li>
                         <li><a href="/contact">Contact</a></li>
