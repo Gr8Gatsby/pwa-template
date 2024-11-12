@@ -46,14 +46,21 @@ class AppNavBase extends HTMLElement {
                 :host {
                     display: block;
                 }
+                
                 nav {
+                    position: relative;
+                    width: 100%;
+                    z-index: 9999;
                     background: rgba(255, 255, 255, 0.8);
                     backdrop-filter: var(--blur-effect);
                     -webkit-backdrop-filter: var(--blur-effect);
                     padding: var(--spacing-md);
                     border-bottom: 1px solid var(--color-border);
                 }
+
                 .nav-container {
+                    position: relative;
+                    width: 100%;
                     max-width: 1200px;
                     margin: 0 auto;
                     display: flex;
@@ -117,38 +124,50 @@ class AppNavBase extends HTMLElement {
                         position: fixed;
                         top: 0;
                         left: 0;
+                        right: 0;
+                        bottom: 0;
+                        width: 100%;
                         height: 100vh;
-                        width: 280px;
                         background: var(--color-background);
-                        padding-top: 80px;
+                        display: flex;
                         flex-direction: column;
+                        align-items: center;
+                        justify-content: center;
+                        z-index: 9998;
                         transform: translateX(-100%);
                         transition: transform 0.3s ease;
-                        z-index: 1000;
-                        box-shadow: 2px 0 10px rgba(0,0,0,0.1);
                     }
-                    
+
                     .hamburger {
-                        display: flex;
                         position: relative;
-                        z-index: 1001;
+                        z-index: 9999;
+                        margin: var(--spacing-sm);
+                        display: flex;
                     }
-                    
+
                     .nav-menu.hidden {
                         transform: translateX(-100%);
                     }
-                    
+
                     .nav-menu:not(.hidden) {
                         transform: translateX(0);
                     }
-                    
+
                     .nav-menu li {
-                        width: 100%;
+                        margin: var(--spacing-md) 0;
+                        opacity: 0;
+                        transform: translateX(-20px);
+                        transition: all 0.3s ease;
                     }
-                    
+
+                    .nav-menu:not(.hidden) li {
+                        opacity: 1;
+                        transform: translateX(0);
+                    }
+
                     a {
+                        font-size: 1.5rem;
                         padding: var(--spacing-md);
-                        width: 100%;
                     }
                 }
             </style>
