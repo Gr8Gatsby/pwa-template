@@ -32,17 +32,22 @@ self.addEventListener('activate', event => {
 
 // Fetch event
 self.addEventListener('fetch', event => {
+    // Check if we're in development using hostname
     const isDevelopment = self.location.hostname === 'localhost' || 
                          self.location.hostname === '127.0.0.1' ||
                          self.location.hostname.includes('.repl.co');
     
     if (isDevelopment) {
-        return;
+        // In development, don't cache, just fetch from network
+        return fetch(event.request);
     }
     
+    // In production, use cache-first strategy
     event.respondWith(
-        fetch(event.request).catch(() => {
-            return caches.match(event.request);
-        })
+        caches.match(event.request)
+            .then(response => response || fetch(event.request))
+            .catch(() => {
+                return caches.match('/');
+            })
     );
 });
