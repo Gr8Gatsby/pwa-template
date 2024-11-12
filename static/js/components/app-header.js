@@ -57,9 +57,7 @@ class AppHeaderBase extends HTMLElement {
                 }
                 
                 header {
-                    background: rgba(255, 255, 255, 0.8);
-                    backdrop-filter: var(--blur-effect);
-                    -webkit-backdrop-filter: var(--blur-effect);
+                    background: var(--color-surface);
                     border-bottom: 1px solid var(--color-border);
                 }
                 
