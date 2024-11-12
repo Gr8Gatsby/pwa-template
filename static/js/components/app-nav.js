@@ -1,8 +1,9 @@
-class AppNav extends HTMLElement {
+import { store, withState } from '../state/store.js';
+
+class AppNavBase extends HTMLElement {
     constructor() {
         super();
         this.attachShadow({ mode: 'open' });
-        this.isMenuOpen = false;
     }
 
     connectedCallback() {
@@ -17,10 +18,23 @@ class AppNav extends HTMLElement {
         if (hamburger && nav) {
             hamburger.addEventListener('click', (e) => {
                 e.preventDefault();
-                this.isMenuOpen = !this.isMenuOpen;
-                hamburger.classList.toggle('active');
-                nav.classList.toggle('hidden');
+                store.dispatch({ type: 'TOGGLE_NAVIGATION' });
             });
+        }
+    }
+
+    onStateChange(state) {
+        const hamburger = this.shadowRoot.querySelector('.hamburger');
+        const nav = this.shadowRoot.querySelector('.nav-menu');
+        
+        if (hamburger && nav) {
+            if (state.isNavOpen) {
+                hamburger.classList.add('active');
+                nav.classList.remove('hidden');
+            } else {
+                hamburger.classList.remove('active');
+                nav.classList.add('hidden');
+            }
         }
     }
 
@@ -147,7 +161,7 @@ class AppNav extends HTMLElement {
                         <span></span>
                         <span></span>
                     </button>
-                    <ul class="nav-menu">
+                    <ul class="nav-menu hidden">
                         <li><a href="/">Home</a></li>
                         <li><a href="/about">About</a></li>
                         <li><a href="/contact">Contact</a></li>
@@ -158,4 +172,6 @@ class AppNav extends HTMLElement {
     }
 }
 
+// Create component with state management
+const AppNav = withState(AppNavBase);
 customElements.define('app-nav', AppNav);
