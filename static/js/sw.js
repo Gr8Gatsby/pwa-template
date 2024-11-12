@@ -33,8 +33,12 @@ self.addEventListener('activate', event => {
 
 // Fetch event
 self.addEventListener('fetch', event => {
-    // During development, bypass cache
-    if (process.env.NODE_ENV !== 'production') {
+    // During development, always fetch from network
+    const isDevelopment = self.location.hostname === 'localhost' || 
+                         self.location.hostname === '127.0.0.1' ||
+                         self.location.hostname.includes('.repl.co');
+                         
+    if (isDevelopment) {
         return fetch(event.request);
     }
     

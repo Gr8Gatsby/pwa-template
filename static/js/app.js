@@ -53,6 +53,10 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Expose store to window for debugging in development
-if (process.env.NODE_ENV !== 'production') {
+const isDevelopment = window.location.hostname === 'localhost' || 
+                     window.location.hostname === '127.0.0.1' ||
+                     window.location.hostname.includes('.repl.co');
+
+if (isDevelopment) {
     window.__store = store;
 }
