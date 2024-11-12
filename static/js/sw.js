@@ -33,8 +33,14 @@ self.addEventListener('activate', event => {
 
 // Fetch event
 self.addEventListener('fetch', event => {
+    // During development, bypass cache
+    if (process.env.NODE_ENV !== 'production') {
+        return fetch(event.request);
+    }
+    
     event.respondWith(
-        caches.match(event.request)
-            .then(response => response || fetch(event.request))
+        fetch(event.request).catch(() => {
+            return caches.match(event.request);
+        })
     );
 });

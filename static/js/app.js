@@ -1,8 +1,13 @@
 // Register service worker
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js')
+        const swUrl = '/sw.js?v=' + new Date().getTime();
+        navigator.serviceWorker.register(swUrl)
             .then(registration => {
+                // Check if there's an existing service worker
+                if (registration.active) {
+                    registration.update();
+                }
                 console.log('ServiceWorker registration successful');
             })
             .catch(err => {
