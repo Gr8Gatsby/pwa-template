@@ -65,7 +65,7 @@ class AppNav extends HTMLElement {
                     height: 2px;
                     background: var(--color-text);
                     border-radius: 1px;
-                    transition: all var(--transition-base);
+                    transition: all 0.3s ease;
                 }
                 .hamburger.active span:nth-child(1) {
                     transform: rotate(45deg) translate(5px, 5px);
@@ -85,14 +85,14 @@ class AppNav extends HTMLElement {
                     margin: 0;
                     padding: 0;
                     transform: translateX(0);
-                    transition: transform var(--transition-base);
+                    transition: transform 0.3s ease-in-out;
                 }
                 a {
                     color: var(--color-text);
                     text-decoration: none;
                     padding: var(--spacing-sm) var(--spacing-md);
                     border-radius: 8px;
-                    transition: all var(--transition-base);
+                    transition: all 0.3s ease;
                     font-size: 1rem;
                     display: block;
                 }
@@ -116,7 +116,12 @@ class AppNav extends HTMLElement {
                         background: var(--color-background);
                         padding-top: 80px;
                         transform: translateX(-100%);
-                        transition: transform 0.3s ease;
+                        transition: transform 0.3s ease-in-out;
+                        z-index: 1000;
+                        box-shadow: var(--shadow-lg);
+                    }
+                    .nav-menu.hidden {
+                        transform: translateX(-100%);
                     }
                     .nav-menu:not(.hidden) {
                         transform: translateX(0);
@@ -142,7 +147,7 @@ class AppNav extends HTMLElement {
                         <span></span>
                         <span></span>
                     </button>
-                    <ul class="nav-menu hidden">
+                    <ul class="nav-menu">
                         <li><a href="/">Home</a></li>
                         <li><a href="/about">About</a></li>
                         <li><a href="/contact">Contact</a></li>
