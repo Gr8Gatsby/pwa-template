@@ -31,9 +31,11 @@ class AppNavBase extends HTMLElement {
             if (state.isNavOpen) {
                 hamburger.classList.add('active');
                 nav.classList.remove('hidden');
+                document.body.style.overflow = 'hidden'; // Prevent scrolling when menu is open
             } else {
                 hamburger.classList.remove('active');
                 nav.classList.add('hidden');
+                document.body.style.overflow = ''; // Restore scrolling
             }
         }
     }
@@ -71,8 +73,6 @@ class AppNavBase extends HTMLElement {
                     border: none;
                     cursor: pointer;
                     padding: 0;
-                    position: relative;
-                    z-index: 1001;
                 }
                 .hamburger span {
                     width: 30px;
@@ -114,11 +114,19 @@ class AppNavBase extends HTMLElement {
                     background-color: var(--color-surface);
                 }
 
+                /* Mobile Navigation Styles */
                 @media (max-width: 768px) {
+                    nav {
+                        position: relative;
+                        z-index: 1000;
+                    }
+                    .nav-container {
+                        position: static;
+                    }
                     .hamburger {
                         display: flex !important;
                         position: relative;
-                        z-index: 1001;
+                        z-index: 1002;
                     }
                     .nav-menu {
                         position: fixed;
@@ -126,13 +134,30 @@ class AppNavBase extends HTMLElement {
                         left: 0;
                         height: 100vh;
                         width: 280px;
-                        flex-direction: column;
+                        z-index: 1001;
                         background: var(--color-background);
+                        box-shadow: var(--shadow-lg);
                         padding-top: 80px;
+                        flex-direction: column;
                         transform: translateX(-100%);
                         transition: transform 0.3s ease-in-out;
-                        z-index: 1000;
-                        box-shadow: var(--shadow-lg);
+                    }
+                    .nav-menu::before {
+                        content: '';
+                        position: fixed;
+                        top: 0;
+                        left: 0;
+                        width: 100vw;
+                        height: 100vh;
+                        background: rgba(0, 0, 0, 0.5);
+                        opacity: 0;
+                        transition: opacity 0.3s ease;
+                        pointer-events: none;
+                        z-index: -1;
+                    }
+                    .nav-menu:not(.hidden)::before {
+                        opacity: 1;
+                        pointer-events: auto;
                     }
                     .nav-menu.hidden {
                         transform: translateX(-100%);
