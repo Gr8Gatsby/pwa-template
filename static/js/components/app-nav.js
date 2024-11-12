@@ -13,12 +13,15 @@ class AppNav extends HTMLElement {
     setupEventListeners() {
         const hamburger = this.shadowRoot.querySelector('.hamburger');
         const nav = this.shadowRoot.querySelector('.nav-menu');
-
-        hamburger?.addEventListener('click', () => {
-            this.isMenuOpen = !this.isMenuOpen;
-            hamburger.classList.toggle('active');
-            nav.classList.toggle('hidden');
-        });
+        
+        if (hamburger && nav) {
+            hamburger.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.isMenuOpen = !this.isMenuOpen;
+                hamburger.classList.toggle('active');
+                nav.classList.toggle('hidden');
+            });
+        }
     }
 
     render() {
@@ -42,6 +45,7 @@ class AppNav extends HTMLElement {
                     align-items: center;
                     position: relative;
                 }
+
                 /* Hamburger Menu Styles */
                 .hamburger {
                     display: none;
@@ -54,7 +58,7 @@ class AppNav extends HTMLElement {
                     cursor: pointer;
                     padding: 0;
                     position: relative;
-                    z-index: 1000;
+                    z-index: 1001;
                 }
                 .hamburger span {
                     width: 30px;
@@ -72,6 +76,7 @@ class AppNav extends HTMLElement {
                 .hamburger.active span:nth-child(3) {
                     transform: rotate(-45deg) translate(7px, -7px);
                 }
+
                 /* Navigation Menu */
                 .nav-menu {
                     display: flex;
@@ -97,7 +102,9 @@ class AppNav extends HTMLElement {
 
                 @media (max-width: 768px) {
                     .hamburger {
-                        display: flex;
+                        display: flex !important;
+                        position: relative;
+                        z-index: 1001;
                     }
                     .nav-menu {
                         position: fixed;
@@ -107,12 +114,12 @@ class AppNav extends HTMLElement {
                         width: 280px;
                         flex-direction: column;
                         background: var(--color-background);
-                        padding: calc(var(--spacing-lg) * 2) var(--spacing-md) var(--spacing-md);
-                        box-shadow: var(--shadow-lg);
-                        z-index: 999;
-                    }
-                    .nav-menu.hidden {
+                        padding-top: 80px;
                         transform: translateX(-100%);
+                        transition: transform 0.3s ease;
+                    }
+                    .nav-menu:not(.hidden) {
+                        transform: translateX(0);
                     }
                     .nav-menu li {
                         width: 100%;
@@ -135,7 +142,7 @@ class AppNav extends HTMLElement {
                         <span></span>
                         <span></span>
                     </button>
-                    <ul class="nav-menu">
+                    <ul class="nav-menu hidden">
                         <li><a href="/">Home</a></li>
                         <li><a href="/about">About</a></li>
                         <li><a href="/contact">Contact</a></li>
