@@ -1,0 +1,36 @@
+/* Common component styles */
+:host {
+    display: block;
+}
+
+/* Header Component */
+app-header {
+    background-color: var(--color-surface);
+    padding: var(--spacing-md);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Navigation Component */
+app-nav {
+    background-color: var(--color-primary);
+    color: white;
+}
+
+/* Footer Component */
+app-footer {
+    background-color: var(--color-surface);
+    padding: var(--spacing-md);
+    margin-top: auto;
+}
+
+/* Component Transitions */
+.fade-enter {
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.fade-enter-active {
+    opacity: 1;
+    transform: translateY(0);
+}
